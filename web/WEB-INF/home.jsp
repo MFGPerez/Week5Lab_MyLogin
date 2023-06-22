@@ -9,17 +9,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home Page</title>
     </head>
     <body>
         <h1>Home Page</h1>
-        
-        <h3>Welcome : ${username}</h3>
-        
-       
-            
-             <a href="login?logout" >LogOut</a>
-     
-       
+
+        <h3>Welcome : ${username} </h3>
+
+
+        <a href="login?logout">LogOut</a>
+
+
     </body>
 </html>

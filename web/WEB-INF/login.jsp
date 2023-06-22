@@ -13,19 +13,20 @@
     </head>
     <body>
         <h1>Login</h1>
-        
-        <form method="post" action="home" >
-            
-            <label><strong> Username:  </label><input type="text" name="username" value="${user.username}"><br>  
-                <br> 
-            <label><strong> Password:  </label><input type="text" name="password"  value="${user.password}"><br>  
-                
+
+        <form method="post" action="login" > <!-- we are going to post this data to the login servlets post method  -->
+
+
+            <label><strong> Username:  </label><input type="text" name="username" ><br>  
+            <br> 
+            <label><strong> Password:  </label><input type="text" name="password"  ><br>  
+
             <input type="submit" value="Log in">  
-            
+
         </form>
-        
+
         <p> ${error}</p><br>
         <p>${logoutMessage}</p>
-       
+
     </body>
 </html>

@@ -16,85 +16,66 @@ import models.AccountService;
 import models.User;
 
 /**
- * Description handles all authentication and creation/ destruction of sessions 
+ * Description handles all authentication and creation/ destruction of sessions
+ *
  * @author mfgperez
  */
 public class LoginServlet extends HttpServlet {
 
-  
-   @Override // displays login form , responsible for loging out the user 
-   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  // on start up
-       
-               
-        
-          HttpSession session = request.getSession();
-          String logout = request.getParameter("logout"); 
-          String username = (String) session.getAttribute("username"); 
-          
-     
-          
-      
-             if (logout != null) {
+    @Override // displays login form , responsible for loging out the user 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  // on start up
 
-              request.setAttribute("logoutMessage", "You have been logged out");
-              session.invalidate();
-              session = request.getSession();
-             
-              getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); // use / before WEB
-              return;
+        /* FIELDS  */
+        HttpSession session = request.getSession();
+        String logout = request.getParameter("logout");
 
+        //  String username = (String) session.getAttribute("username");
+
+        /* LOGOUT*/
+        if (logout != null) {
+
+            request.setAttribute("logoutMessage", "You have been logged out");
+            session.invalidate();
+            session = request.getSession();
         }
 
-             
-            
-    getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); // use / before WEB
-    return;
-        
-       
-   }
-   
-    @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-   
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); // use / before WEB
+        return;
 
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        /* FIELDS  */
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-   
-        AccountService  acount = new AccountService();
+
+        AccountService acount = new AccountService();
         User newUser;
         HttpSession session = request.getSession();
-        
+        //String user; 
+
         // if username or password is not null 
-        if (username != null && password != null)  {
+        if (username != null && password != null) {
+
+            newUser = acount.login(username, password);
+
+            // if username is abe or barb send them to the home page , the nset attribute user name to username 
+            if (newUser != null) {
+
+                session.setAttribute("username", newUser.getUserName());
             
-              // call login method 
-          User user =  acount.login(username, password ); 
-                 // if username is abe or barb send them to the home page , the nset attribute user name to username 
-                 if (user.getUserName().equals("abe") || user.getUserName().equals("barb"))  {
-              
-                    session.setAttribute("username", username);
-                    
-                    request.setAttribute("username" , username);
-                    // redirect to home page 
-                  getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
-               
-                    // add - /home to MyLogin
-             }
-                 
+                response.sendRedirect("home"); // send user to the home page 
+                return; // good practice 
+            }
+
         }
-        else { // ellse throw error 
-              request.setAttribute("error", "invalid username or passsword");
-             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-             return; 
-        }
-        
-            
-              
-               
-        
-      
-        
-   }
-   
-  
+
+        request.setAttribute("error", "invalid username or passsword");
+
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        return;
+
+    }
 }

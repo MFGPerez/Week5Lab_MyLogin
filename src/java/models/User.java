@@ -18,7 +18,7 @@ public class User {
     
     public User() {
            this.userName = ""; 
-        this.password = ""; 
+         this.password = ""; 
     }
     public User(String username , String password) {
         
@@ -35,7 +35,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
